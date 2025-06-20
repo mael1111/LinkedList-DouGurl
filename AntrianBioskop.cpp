@@ -87,4 +87,37 @@ Node* tail = nullptr;
            saatIni = saatIni->next;
        }
    }
+
+      void hapusPembeli(string nama) {
+       if (head == nullptr) {
+           cout << "\nAntrian kosong. Tidak ada pembeli yang bisa dihapus." << endl;
+           return;
+       }
+
+       Node* temp = head;
+       Node* prev = nullptr;
+
+       while (temp != nullptr && temp->nama != nama) {
+           prev = temp;
+           temp = temp->next;
+       }
+
+       if (temp == nullptr) {
+           cout << "\n⚠ Pembeli dengan nama '" << nama << "' tidak ditemukan." << endl;
+           return;
+       }
+
+       if (prev == nullptr) {
+           head = head->next;
+       } else {
+           prev->next = temp->next;
+       }
+
+       if (temp == tail) {
+           tail = prev;
+       }
+
+       cout << "\n✅ Pembeli '" << temp->nama << "' berhasil dihapus dari antrian." << endl;
+       delete temp;
+   }
    
