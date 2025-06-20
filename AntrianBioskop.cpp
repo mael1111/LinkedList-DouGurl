@@ -120,4 +120,46 @@ Node* tail = nullptr;
        cout << "\n✅ Pembeli '" << temp->nama << "' berhasil dihapus dari antrian." << endl;
        delete temp;
    }
+
+   void insertPembeliAtPosition(string nama, string film, string jadwal, int jumlahTiket, int posisi) {
+       Node* baru = new Node;
+       baru->nama = nama;
+       baru->film = film;
+       baru->jadwal = jadwal;
+       baru->jumlahTiket = jumlahTiket;
+
+       if (posisi <= 1) {
+           baru->next = head;
+           head = baru;
+           if (tail == nullptr) {
+               tail = baru;
+           }
+           cout << "\n✅ Pembeli '" << nama << "' berhasil ditambahkan di posisi 1." << endl;
+           return;
+       }
+
+       Node* saatIni = head;
+       for (int i = 1; saatIni != nullptr && i < posisi - 1; i++) {
+           saatIni = saatIni->next;
+       }
+
+       if (saatIni == nullptr) {
+           tail->next = baru;
+           tail = baru;
+           cout << "\n⚠ Posisi " << posisi << " terlalu besar. Pembeli ditambahkan di akhir antrian." << endl;
+       } else {
+           baru->next = saatIni->next;
+           saatIni->next = baru;
+           if (baru->next == nullptr) {
+               tail = baru;
+           }
+           cout << "\n✅ Pembeli '" << nama << "' berhasil ditambahkan di posisi " << posisi << "." << endl;
+       }
+   }
+
+      int main() {
+       menu();
+       return 0;
+   }
+   
    
