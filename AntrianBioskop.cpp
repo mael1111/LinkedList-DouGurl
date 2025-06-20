@@ -201,4 +201,8 @@ Node* tail = nullptr;
        } while (pilihan != 6);
    }
       
+   int main() {
+       menu();
+       return 0;
+   }
    
