@@ -157,9 +157,48 @@ Node* tail = nullptr;
        }
    }
 
-      int main() {
-       menu();
-       return 0;
+   void menu() {
+       const string NAMA_BIOSKOP = "DouGurl";
+       AntrianTiket antrian;
+       int pilihan;
+       string nama, film, jadwal;
+       int tiket, posisi;
+
+       do {
+           cout << "🎬 MENU UTAMA" << endl;
+           cout << "1. Tambah Pembeli" << endl;
+           cout << "2. Layani Pembeli" << endl;
+           cout << "3. Tampilkan Antrian" << endl;
+           cout << "4. Hapus Pembeli" << endl;
+           cout << "5. Insert Pembeli di Posisi Tertentu" << endl;
+           cout << "6. Keluar" << endl;
+           cout << "Pilih menu (1-6): ";
+           cin >> pilihan;
+           cin.ignore();
+
+           switch (pilihan) {
+               case 1:
+                   // Tambah pembeli
+                   break;
+               case 2:
+                   antrian.layaniPembeli();
+                   break;
+               case 3:
+                   antrian.tampilkanAntrian();
+                   break;
+               case 4:
+                   // Hapus pembeli
+                   break;
+               case 5:
+                   // Insert pembeli
+                   break;
+               case 6:
+                   cout << "Terima kasih!" << endl;
+                   break;
+               default:
+                   cout << "Pilihan tidak valid." << endl;
+           }
+       } while (pilihan != 6);
    }
-   
+      
    
