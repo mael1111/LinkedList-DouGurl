@@ -73,4 +73,18 @@ Node* tail = nullptr;
        delete temp;
    }
    
+   void tampilkanAntrian() {
+       if (head == nullptr) {
+           cout << "Antrian kosong." << endl;
+           return;
+       }
+
+       cout << "📋 DAFTAR ANTRIAN TIKET BIOSKOP" << endl;
+       Node* saatIni = head;
+       int nomor = 1;
+       while (saatIni != nullptr) {
+           cout << nomor++ << ". " << saatIni->nama << " - " << saatIni->film << endl;
+           saatIni = saatIni->next;
+       }
+   }
    
