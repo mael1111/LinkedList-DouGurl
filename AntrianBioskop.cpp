@@ -1,13 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <iomanip>  // Untuk setw dan setfill
 using namespace std;
-
-// Fungsi untuk menampilkan garis pembatas dengan style
-void garis(char karakter, int panjang) {
-    cout << setfill(karakter) << setw(panjang) << "" << setfill(' ') << endl;
-}
 
 struct Node {
     string nama;
@@ -43,7 +37,7 @@ public:
             tail = baru;
         }
 
-        cout << "\n✅ Pembeli '" << nama << "' masuk antrian untuk film '" << film
+        cout << "✅ Pembeli '" << nama << "' masuk antrian untuk film '" << film
              << "' pada jam " << jadwal << " (" << jumlahTiket << " tiket)." << endl;
     }
 
@@ -54,14 +48,13 @@ public:
         }
 
         Node* temp = head;
-        garis('=', 40);
-        cout << "🎟  MELAYANI PEMBELI" << endl;
-        garis('=', 40);
-        cout << left << setw(15) << "Nama" << ": " << temp->nama << endl;
-        cout << left << setw(15) << "Film" << ": " << temp->film << endl;
-        cout << left << setw(15) << "Jadwal" << ": " << temp->jadwal << endl;
-        cout << left << setw(15) << "Jumlah Tiket" << ": " << temp->jumlahTiket << endl;
-        garis('-', 40);
+        cout << "\n🎟  Melayani pembeli..." << endl;
+        cout << "-----------------------------" << endl;
+        cout << "Nama      : " << temp->nama << endl;
+        cout << "Film      : " << temp->film << endl;
+        cout << "Jadwal    : " << temp->jadwal << endl;
+        cout << "Jumlah    : " << temp->jumlahTiket << " tiket" << endl;
+        cout << "-----------------------------" << endl;
         cout << "🎫 Tiket berhasil dicetak!" << endl;
 
         ofstream file("riwayat_pembeli.txt", ios::app);
@@ -85,32 +78,21 @@ public:
             return;
         }
 
-        garis('=', 50);
-        cout << "📋 DAFTAR ANTRIAN TIKET BIOSKOP" << endl;
-        garis('=', 50);
-        cout << left << setw(5) << "No" 
-             << setw(20) << "Nama Pembeli" 
-             << setw(20) << "Film" 
-             << setw(10) << "Jadwal" 
-             << setw(10) << "Tiket" << endl;
-        garis('-', 50);
-
+        cout << "\n📋 Daftar Antrian Tiket:" << endl;
         Node* saatIni = head;
         int nomor = 1;
         while (saatIni != nullptr) {
-            cout << left << setw(5) << nomor++ 
-                 << setw(20) << saatIni->nama 
-                 << setw(20) << saatIni->film 
-                 << setw(10) << saatIni->jadwal 
-                 << setw(10) << saatIni->jumlahTiket << endl;
+            cout << nomor++ << ". " << saatIni->nama
+                 << " | Film: " << saatIni->film
+                 << " | Jam: " << saatIni->jadwal
+                 << " | Tiket: " << saatIni->jumlahTiket << endl;
             saatIni = saatIni->next;
         }
-        garis('=', 50);
     }
 
     void hapusPembeli(string nama) {
         if (head == nullptr) {
-            cout << "\nAntrian kosong. Tidak ada pembeli yang bisa dihapus." << endl;
+            cout << "Antrian kosong. Tidak ada pembeli yang bisa dihapus." << endl;
             return;
         }
 
@@ -123,22 +105,22 @@ public:
         }
 
         if (temp == nullptr) {
-            cout << "\n⚠ Pembeli dengan nama '" << nama << "' tidak ditemukan." << endl;
+            cout << "Pembeli dengan nama '" << nama << "' tidak ditemukan." << endl;
             return;
         }
 
         if (prev == nullptr) {
-            head = head->next;
+            head = head->next; // Hapus head
         } else {
-            prev->next = temp->next;
+            prev->next = temp->next; // Hapus node di tengah atau akhir
         }
 
         if (temp == tail) {
-            tail = prev;
+            tail = prev; // Update tail jika perlu
         }
 
-        cout << "\n✅ Pembeli '" << temp->nama << "' berhasil dihapus dari antrian." << endl;
         delete temp;
+        cout << "✅ Pembeli '" << nama << "' berhasil dihapus dari antrian." << endl;
     }
 
     void insertPembeliAtPosition(string nama, string film, string jadwal, int jumlahTiket, int posisi) {
@@ -147,36 +129,37 @@ public:
         baru->film = film;
         baru->jadwal = jadwal;
         baru->jumlahTiket = jumlahTiket;
+        baru->next = nullptr;
 
-        if (posisi <= 1) {
+        if (posisi == 1) {
             baru->next = head;
             head = baru;
             if (tail == nullptr) {
                 tail = baru;
             }
-            cout << "\n✅ Pembeli '" << nama << "' berhasil ditambahkan di posisi 1." << endl;
+            cout << "✅ Pembeli '" << nama << "' berhasil ditambahkan di posisi " << posisi << "." << endl;
             return;
         }
 
         Node* saatIni = head;
-        int i;
-        for (i = 1; saatIni != nullptr && i < posisi - 1; i++) {
+        for (int i = 1; saatIni != nullptr && i < posisi - 1; i++) {
             saatIni = saatIni->next;
         }
 
         if (saatIni == nullptr) {
-            baru->next = nullptr;
-            tail->next = baru;
-            tail = baru;
-            cout << "\n⚠ Posisi " << posisi << " terlalu besar. Pembeli ditambahkan di akhir antrian." << endl;
-        } else {
-            baru->next = saatIni->next;
-            saatIni->next = baru;
-            if (baru->next == nullptr) {
-                tail = baru;
-            }
-            cout << "\n✅ Pembeli '" << nama << "' berhasil ditambahkan di posisi " << posisi << "." << endl;
+            cout << "Posisi " << posisi << " tidak valid. Pembeli tidak ditambahkan." << endl;
+            delete baru;
+            return;
         }
+
+        baru->next = saatIni->next;
+        saatIni->next = baru;
+
+        if (baru->next == nullptr) {
+            tail = baru; // Update tail jika baru ditambahkan di akhir
+        }
+
+        cout << "✅ Pembeli '" << nama << "' berhasil ditambahkan di posisi " << posisi << "." << endl;
     }
 
     ~AntrianTiket() {
@@ -202,48 +185,32 @@ string pilihJadwal() {
         case 1: jadwal = "13:00"; break;
         case 2: jadwal = "16:00"; break;
         case 3: jadwal = "19:00"; break;
-        default: 
-            cout << "Pilihan tidak valid. Default ke jam 13:00" << endl;
-            jadwal = "13:00"; break;
+        default: jadwal = "Tidak diketahui"; break;
     }
 
     return jadwal;
 }
 
-void displayHeader(const string& bioskop) {
-    cout << "\n\n";
-    garis('*', 60);
-    cout << setw(30) << right << "BIOSKOP " << bioskop << endl;
-    garis('*', 60);
-}
-
 void menu() {
-    const string NAMA_BIOSKOP = "DouGurl";
     AntrianTiket antrian;
     int pilihan;
     string nama, film, jadwal;
     int tiket, posisi;
 
-    displayHeader(NAMA_BIOSKOP);
-
     do {
-        garis('-', 40);
-        cout << "🎬 MENU UTAMA" << endl;
-        garis('-', 40);
+        cout << "\n🎬=== MENU ANTRIAN BIOSKOP ===🎬" << endl;
         cout << "1. Tambah Pembeli" << endl;
         cout << "2. Layani Pembeli" << endl;
         cout << "3. Tampilkan Antrian" << endl;
         cout << "4. Hapus Pembeli" << endl;
         cout << "5. Insert Pembeli di Posisi Tertentu" << endl;
         cout << "6. Keluar" << endl;
-        garis('-', 40);
         cout << "Pilih menu (1-6): ";
         cin >> pilihan;
         cin.ignore();
 
         switch (pilihan) {
             case 1:
-                cout << "\n━━━━ TAMBAH PEMBELI ━━━━" << endl;
                 cout << "Masukkan nama pembeli: ";
                 getline(cin, nama);
                 cout << "Masukkan nama film: ";
@@ -261,13 +228,11 @@ void menu() {
                 antrian.tampilkanAntrian();
                 break;
             case 4:
-                cout << "\n━━━━ HAPUS PEMBELI ━━━━" << endl;
                 cout << "Masukkan nama pembeli yang ingin dihapus: ";
                 getline(cin, nama);
                 antrian.hapusPembeli(nama);
                 break;
             case 5:
-                cout << "\n━━━━ INSERT PEMBELI ━━━━" << endl;
                 cout << "Masukkan nama pembeli: ";
                 getline(cin, nama);
                 cout << "Masukkan nama film: ";
@@ -281,16 +246,15 @@ void menu() {
                 antrian.insertPembeliAtPosition(nama, film, jadwal, tiket, posisi);
                 break;
             case 6:
-                cout << "\nTerima kasih telah menggunakan layanan Bioskop " << NAMA_BIOSKOP << "!" << endl;
+                cout << "Program selesai. Terima kasih!" << endl;
                 break;
             default:
-                cout << "\n⚠ Pilihan tidak valid. Silakan coba lagi." << endl;
+                cout << "Pilihan tidak valid." << endl;
         }
     } while (pilihan != 6);
 }
 
 int main() {
-    system("cls");  // Clear screen (untuk Windows)
     menu();
     return 0;
 }
