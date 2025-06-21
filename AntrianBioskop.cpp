@@ -243,7 +243,7 @@ void menu() {
 
         switch (pilihan) {
             case 1:
-                cout << "\n━━━━ TAMBAH PEMBELI ━━━━" << endl;
+                cout << "\n TAMBAH PEMBELI " << endl;
                 cout << "Masukkan nama pembeli: ";
                 getline(cin, nama);
                 cout << "Masukkan nama film: ";
@@ -261,13 +261,13 @@ void menu() {
                 antrian.tampilkanAntrian();
                 break;
             case 4:
-                cout << "\n━━━━ HAPUS PEMBELI ━━━━" << endl;
+                cout << "\n HAPUS PEMBELI " << endl;
                 cout << "Masukkan nama pembeli yang ingin dihapus: ";
                 getline(cin, nama);
                 antrian.hapusPembeli(nama);
                 break;
             case 5:
-                cout << "\n━━━━ INSERT PEMBELI ━━━━" << endl;
+                cout << "\n INSERT PEMBELI " << endl;
                 cout << "Masukkan nama pembeli: ";
                 getline(cin, nama);
                 cout << "Masukkan nama film: ";
