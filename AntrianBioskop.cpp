@@ -195,8 +195,8 @@ string pilihJadwal() {
     cout << "1. 13:00" << endl;
     cout << "2. 16:00" << endl;
     cout << "3. 19:00" << endl;
-    cout << "Pilih jadwal (1-3): ";
-    cin >> pilihan;
+    cout << "Pilih jadwal (1-3) : ";
+    cin >> pilihan ;
 
     switch (pilihan) {
         case 1: jadwal = "13:00"; break;
@@ -231,13 +231,14 @@ void menu() {
         cout << "🎬 MENU UTAMA" << endl;
         garis('-', 40);
         cout << "1. Tambah Pembeli" << endl;
-        cout << "2. Layani Pembeli" << endl;
+        cout << "2. Insert Pembeli di Posisi Tertentu" << endl;
         cout << "3. Tampilkan Antrian" << endl;
-        cout << "4. Hapus Pembeli" << endl;
-        cout << "5. Insert Pembeli di Posisi Tertentu" << endl;
+        cout << "4. Layanin Pembeli" << endl;
+        cout << "5. Hapus Pembeli" << endl;
         cout << "6. Keluar" << endl;
         garis('-', 40);
         cout << "Pilih menu (1-6): ";
+        
         cin >> pilihan;
         cin.ignore();
 
@@ -255,18 +256,6 @@ void menu() {
                 antrian.tambahPembeli(nama, film, jadwal, tiket);
                 break;
             case 2:
-                antrian.layaniPembeli();
-                break;
-            case 3:
-                antrian.tampilkanAntrian();
-                break;
-            case 4:
-                cout << "\n HAPUS PEMBELI " << endl;
-                cout << "Masukkan nama pembeli yang ingin dihapus: ";
-                getline(cin, nama);
-                antrian.hapusPembeli(nama);
-                break;
-            case 5:
                 cout << "\n INSERT PEMBELI " << endl;
                 cout << "Masukkan nama pembeli: ";
                 getline(cin, nama);
@@ -280,8 +269,20 @@ void menu() {
                 cin.ignore();
                 antrian.insertPembeliAtPosition(nama, film, jadwal, tiket, posisi);
                 break;
+            case 3:
+                antrian.tampilkanAntrian();
+                break;
+            case 4:
+                antrian.layaniPembeli();
+                break;
+            case 5:
+                cout << "\n HAPUS PEMBELI " << endl;
+                cout << "Masukkan nama pembeli yang ingin dihapus: ";
+                getline(cin, nama);
+                antrian.hapusPembeli(nama);
+                break;
             case 6:
-                cout << "\nTerima kasih telah menggunakan layanan Bioskop " << NAMA_BIOSKOP << "!" << endl;
+                cout << "\nTerima Kasih Telah Menggunakan Aplikasi Layanan Bioskop " << NAMA_BIOSKOP << "!" << endl;
                 break;
             default:
                 cout << "\n⚠ Pilihan tidak valid. Silakan coba lagi." << endl;
